@@ -97,19 +97,6 @@ public enum MenuListItem implements SummaryEntityEnum {
             GreenRobotBus_.getInstance_(fragment.getContext()).post(new MenuListFragment.StartDriveRestore());
         }
     },
-    DROPBOX_BACKUP(R.string.backup_database_online_dropbox, R.string.backup_database_online_dropbox_summary, R.drawable.actionbar_dropbox) {
-        @Override
-        public void call(Fragment fragment) {
-            if (!checkBackupFolderConfigured(fragment.getContext())) return;
-            GreenRobotBus_.getInstance_(fragment.getContext()).post(new MenuListFragment.StartDropboxBackup());
-        }
-    },
-    DROPBOX_RESTORE(R.string.restore_database_online_dropbox, R.string.restore_database_online_dropbox_summary, R.drawable.actionbar_dropbox) {
-        @Override
-        public void call(Fragment fragment) {
-            GreenRobotBus_.getInstance_(fragment.getContext()).post(new MenuListFragment.StartDropboxRestore());
-        }
-    },
     MENU_BACKUP_TO(R.string.backup_database_to, R.string.backup_database_to_summary, R.drawable.actionbar_share) {
         @Override
         public void call(Fragment fragment) {

@@ -33,7 +33,6 @@ public class QifExportActivity extends AbstractExportActivity implements Activit
 
     public static final String QIF_EXPORT_SELECTED_ACCOUNTS = "QIF_EXPORT_SELECTED_ACCOUNTS";
     public static final String QIF_EXPORT_DATE_FORMAT = "QIF_EXPORT_DATE_FORMAT";
-    public static final String QIF_EXPORT_UPLOAD_TO_DROPBOX = "QIF_EXPORT_UPLOAD_TO_DROPBOX";
     public static final String QIF_EXPORT_UPLOAD_TO_GDRIVE = "QIF_EXPORT_UPLOAD_TO_GOOGLE_DRIVE";
 
     private final CurrencyExportPreferences currencyPreferences = new CurrencyExportPreferences("qif");
@@ -127,8 +126,6 @@ public class QifExportActivity extends AbstractExportActivity implements Activit
         }
         Spinner dateFormats = findViewById(R.id.spinnerDateFormats);
         data.putExtra(QIF_EXPORT_DATE_FORMAT, dateFormats.getSelectedItem().toString());
-        CheckBox uploadToDropbox = findViewById(R.id.checkboxUploadToDropbox);
-        data.putExtra(QIF_EXPORT_UPLOAD_TO_DROPBOX, uploadToDropbox.isChecked());
         CheckBox uploadToGDrive = findViewById(R.id.checkboxUploadToGDrive);
         data.putExtra(QIF_EXPORT_UPLOAD_TO_GDRIVE, uploadToGDrive.isChecked());
     }
@@ -160,8 +157,6 @@ public class QifExportActivity extends AbstractExportActivity implements Activit
 
         Spinner dateFormats = findViewById(R.id.spinnerDateFormats);
         editor.putInt(QIF_EXPORT_DATE_FORMAT, dateFormats.getSelectedItemPosition());
-        CheckBox uploadToDropbox = findViewById(R.id.checkboxUploadToDropbox);
-        editor.putBoolean(QIF_EXPORT_UPLOAD_TO_DROPBOX, uploadToDropbox.isChecked());
         CheckBox uploadToGDrive = findViewById(R.id.checkboxUploadToGDrive);
         editor.putBoolean(QIF_EXPORT_UPLOAD_TO_GDRIVE, uploadToGDrive.isChecked());
 
@@ -189,10 +184,8 @@ public class QifExportActivity extends AbstractExportActivity implements Activit
         Spinner dateFormats = (Spinner)findViewById(R.id.spinnerDateFormats);
         dateFormats.setSelection(preferences.getInt(QIF_EXPORT_DATE_FORMAT, 0));
 
-        CheckBox uploadToDropbox = findViewById(R.id.checkboxUploadToDropbox);
-        uploadToDropbox.setChecked(preferences.getBoolean(QIF_EXPORT_UPLOAD_TO_DROPBOX, false));
         CheckBox uploadToGDrive = findViewById(R.id.checkboxUploadToGDrive);
-        uploadToDropbox.setChecked(preferences.getBoolean(QIF_EXPORT_UPLOAD_TO_GDRIVE, false));
+        uploadToGDrive.setChecked(preferences.getBoolean(QIF_EXPORT_UPLOAD_TO_GDRIVE, false));
     }
 
     private void parseSelectedAccounts(String selectedIds) {

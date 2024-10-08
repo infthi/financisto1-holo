@@ -32,8 +32,6 @@ import androidx.documentfile.provider.DocumentFile;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
-import com.dropbox.core.DbxDownloader;
-import com.dropbox.core.v2.files.FileMetadata;
 import com.google.api.client.http.HttpResponse;
 
 import org.apache.commons.io.IOUtils;
@@ -46,7 +44,6 @@ import java.util.concurrent.Executors;
 
 import tw.tib.financisto.R;
 import tw.tib.financisto.export.drive.GoogleDriveRESTClient;
-import tw.tib.financisto.export.dropbox.Dropbox;
 
 public class PicturesUtil {
     private static final String TAG = "PicturesUtil";
@@ -84,24 +81,6 @@ public class PicturesUtil {
                             }
                         } catch (Exception e) {
                             Log.e(TAG, "downloading from Google Drive failed", e);
-                        }
-                    }
-
-                    if (!haveFile && MyPreferences.isDropboxDownloadPictures(context)) {
-                        handler.post(() -> imageDescView.setText(R.string.downloading_picture_from_dropbox));
-
-                        try {
-                            Dropbox dropbox = new Dropbox(context);
-                            DbxDownloader<FileMetadata> resp = dropbox.getPictureFile(pictureFileName);
-                            Uri pictureFolderUri = getPictureFolderUri(context);
-                            Uri targetFileUri = DocumentsContract.createDocument(context.getContentResolver(),
-                                    pictureFolderUri, PICTURES_MIME_TYPE, pictureFileName);
-                            OutputStream outputStream = context.getContentResolver().openOutputStream(targetFileUri);
-                            resp.download(outputStream);
-                            outputStream.close();
-                            haveFile = true;
-                        } catch (Exception e) {
-                            Log.e(TAG, "downloading from Dropbox failed", e);
                         }
                     }
                 }
@@ -216,18 +195,6 @@ public class PicturesUtil {
                         client.uploadFile(targetFileUri, sourceMimeType, pictureFolderId);
                     } catch (Exception e) {
                         Log.e(TAG, "upload picture to Google Drive failed", e);
-                    }
-                });
-            }
-
-            if (MyPreferences.isDropboxUploadPictures(context)) {
-                var executor = Executors.newSingleThreadExecutor();
-                executor.execute(() -> {
-                    try {
-                        Dropbox dropbox = new Dropbox(context);
-                        dropbox.uploadPictureFile(targetFileUri);
-                    } catch (Exception e) {
-                        Log.e(TAG, "upload picture to Dropbox failed", e);
                     }
                 });
             }

@@ -25,7 +25,6 @@ public class CsvExportActivity extends AbstractExportActivity {
     public static final String CSV_EXPORT_SPLITS = "CSV_EXPORT_SPLITS";
     public static final String CSV_EXPORT_SPLIT_PARENTS = "CSV_EXPORT_SPLIT_PARENTS";
     public static final String CSV_EXPORT_TX_IDS = "CSV_EXPORT_TX_IDS";
-    public static final String CSV_EXPORT_UPLOAD_TO_DROPBOX = "CSV_EXPORT_UPLOAD_TO_DROPBOX";
     public static final String CSV_EXPORT_UPLOAD_TO_GDRIVE = "CSV_EXPORT_UPLOAD_TO_GDRIVE";
 
     private final CurrencyExportPreferences currencyPreferences = new CurrencyExportPreferences("csv");
@@ -36,7 +35,6 @@ public class CsvExportActivity extends AbstractExportActivity {
     private CheckBox exportSplitParents;
     private CheckBox exportTxIDs;
     private CheckBox includeTxStatus;
-    private CheckBox uploadToDropbox;
     private CheckBox uploadToGDrive;
 
     public CsvExportActivity() {
@@ -52,7 +50,6 @@ public class CsvExportActivity extends AbstractExportActivity {
         exportTxIDs = (CheckBox)findViewById(R.id.checkboxExportTxIDs);
         includeHeader = (CheckBox)findViewById(R.id.checkboxIncludeHeader);
         includeTxStatus = (CheckBox)findViewById(R.id.checkboxIncludeTxStatus);
-        uploadToDropbox = (CheckBox)findViewById(R.id.checkboxUploadToDropbox);
         uploadToGDrive = (CheckBox)findViewById(R.id.checkboxUploadToGDrive);
     }
 
@@ -65,7 +62,6 @@ public class CsvExportActivity extends AbstractExportActivity {
         data.putExtra(CSV_EXPORT_SPLITS, exportSplits.isChecked());
         data.putExtra(CSV_EXPORT_SPLIT_PARENTS, exportSplitParents.isChecked());
         data.putExtra(CSV_EXPORT_TX_IDS, exportTxIDs.isChecked());
-        data.putExtra(CSV_EXPORT_UPLOAD_TO_DROPBOX, uploadToDropbox.isChecked());
         data.putExtra(CSV_EXPORT_UPLOAD_TO_GDRIVE, uploadToGDrive.isChecked());
     }
 
@@ -78,7 +74,6 @@ public class CsvExportActivity extends AbstractExportActivity {
         editor.putBoolean(CSV_EXPORT_SPLITS, exportSplits.isChecked());
         editor.putBoolean(CSV_EXPORT_SPLIT_PARENTS, exportSplitParents.isChecked());
         editor.putBoolean(CSV_EXPORT_TX_IDS, exportTxIDs.isChecked());
-        editor.putBoolean(CSV_EXPORT_UPLOAD_TO_DROPBOX, uploadToDropbox.isChecked());
         editor.putBoolean(CSV_EXPORT_UPLOAD_TO_GDRIVE, uploadToGDrive.isChecked());
 		editor.apply();
 	}
@@ -92,7 +87,6 @@ public class CsvExportActivity extends AbstractExportActivity {
         exportSplits.setChecked(prefs.getBoolean(CSV_EXPORT_SPLITS, false));
         exportSplitParents.setChecked(prefs.getBoolean(CSV_EXPORT_SPLIT_PARENTS, false));
         exportTxIDs.setChecked(prefs.getBoolean(CSV_EXPORT_TX_IDS, false));
-        uploadToDropbox.setChecked(prefs.getBoolean(CSV_EXPORT_UPLOAD_TO_DROPBOX, false));
         uploadToGDrive.setChecked(prefs.getBoolean(CSV_EXPORT_UPLOAD_TO_GDRIVE, false));
 	}
 

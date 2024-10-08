@@ -77,8 +77,7 @@ public class DailyAutoBackupScheduler {
 
         builder.setNextScheduleTimeOverride(scheduledTime.getTime());
 
-        if (MyPreferences.isDropboxUploadAutoBackups(context)
-                || MyPreferences.isGoogleDriveUploadAutoBackups(context))
+        if (MyPreferences.isGoogleDriveUploadAutoBackups(context))
         {
             builder.setConstraints(new Constraints.Builder()
                     .setRequiredNetworkType(NetworkType.CONNECTED).build());

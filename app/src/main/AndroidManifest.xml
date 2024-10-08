@@ -320,24 +320,6 @@
 			android:label="@string/permissions"
 			android:theme="@style/Theme.AppCompat" />
 
-		<activity android:exported="true"
-			android:name="com.dropbox.core.android.AuthActivity"
-			android:excludeFromRecents="true"
-			android:configChanges="screenSize|smallestScreenSize|orientation|screenLayout|keyboard"
-			android:taskAffinity=".MainActivity"
-			android:launchMode="singleTask">
-			<intent-filter>
-
-				<!-- Change this to be db- followed by your app key -->
-				<data android:scheme="db-aenijec51r68hsv" />
-
-				<action android:name="android.intent.action.VIEW" />
-
-				<category android:name="android.intent.category.BROWSABLE" />
-				<category android:name="android.intent.category.DEFAULT" />
-			</intent-filter>
-		</activity>
-
 		<provider
 			android:name="androidx.core.content.FileProvider"
 			android:authorities="tw.tib.financisto"
@@ -359,9 +341,4 @@
 		</service>
 	</application>
 
-	<queries>
-		<!-- for Dropbox app auth -->
-		<package android:name="com.dropbox.android" />
-	</queries>
-
-</manifest> 
+</manifest>

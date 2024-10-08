@@ -48,16 +48,6 @@ public class AutoBackupWorker extends Worker {
             DatabaseExport export = new DatabaseExport(context, db.db(), true);
             Uri backupFileUri = export.export();
             boolean successful = true;
-            if (MyPreferences.isDropboxUploadAutoBackups(context)) {
-                try {
-                    Export.uploadBackupFileToDropbox(context, backupFileUri);
-                } catch (Exception e) {
-                    Log.e(TAG, "Unable to upload auto-backup to Dropbox", e);
-                    log.append("Unable to upload auto-backup to Dropbox\n").append(e);
-                    MyPreferences.notifyAutobackupFailed(context, e);
-                    successful = false;
-                }
-            }
             if (MyPreferences.isGoogleDriveUploadAutoBackups(context)) {
                 try {
                     Export.uploadBackupFileToGoogleDrive(context, backupFileUri);

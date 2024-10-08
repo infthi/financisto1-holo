@@ -28,7 +28,6 @@ import java.util.zip.GZIPOutputStream;
 
 import tw.tib.financisto.R;
 import tw.tib.financisto.export.drive.GoogleDriveRESTClient;
-import tw.tib.financisto.export.dropbox.Dropbox;
 import tw.tib.financisto.utils.MyPreferences;
 
 public abstract class Export {
@@ -101,11 +100,6 @@ public abstract class Export {
         String backupFolderUri = MyPreferences.getDatabaseBackupFolder(context);
         Log.i("Financisto", "getBackupFolder: " + backupFolderUri);
         return backupFolderUri;
-    }
-
-    public static void uploadBackupFileToDropbox(Context context, Uri backupFileUri) throws Exception {
-        Dropbox dropbox = new Dropbox(context);
-        dropbox.uploadBackupFile(backupFileUri);
     }
 
     public static void uploadBackupFileToGoogleDrive(Context context, Uri backupFileUri) throws Exception {

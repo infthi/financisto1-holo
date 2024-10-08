@@ -21,9 +21,6 @@ public class QifExportTask extends ImportExportAsyncTask {
 	protected Object work(Context context, DatabaseAdapter db, Uri...params) throws Exception {
 		QifExport qifExport = new QifExport(context, db, options);
 		Uri backupFileUri = qifExport.export();
-		if (options.uploadToDropbox) {
-			doForceUploadToDropbox(context, backupFileUri);
-		}
 		if (options.uploadToGDrive) {
 			doForceUploadToGoogleDrive(context, backupFileUri);
 		}

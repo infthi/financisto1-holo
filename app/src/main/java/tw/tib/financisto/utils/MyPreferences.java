@@ -34,9 +34,6 @@ import tw.tib.financisto.rates.ExchangeRateProviderFactory;
 
 public class MyPreferences {
 
-	private static final String DROPBOX_AUTH_TOKEN = "dropbox_auth_token";
-	private static final String DROPBOX_AUTHORIZE = "dropbox_authorize";
-
 	public enum AccountSortOrder {
 		SORT_ORDER_ASC("sortOrder", true),
 		SORT_ORDER_DESC("sortOrder", false),
@@ -634,47 +631,6 @@ public class MyPreferences {
 
 	public static boolean isQuickMenuShowDuplicateKeepDateTime(Context context) {
 		return getBoolean(context, "quick_menu_transaction_duplicate_keep_date_time", false);
-	}
-
-	public static String getDropboxAuthToken(Context context) {
-		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-		return sharedPreferences.getString(DROPBOX_AUTH_TOKEN, null);
-	}
-
-	public static void storeDropboxKeys(Context context, String sessionToken) {
-		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-		SharedPreferences.Editor e = sharedPreferences.edit();
-		e.putString(DROPBOX_AUTH_TOKEN, sessionToken);
-		e.putBoolean(DROPBOX_AUTHORIZE, true);
-		e.apply();
-	}
-
-	public static void removeDropboxKeys(Context context) {
-		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-		SharedPreferences.Editor e = sharedPreferences.edit();
-		e.remove(DROPBOX_AUTH_TOKEN);
-		e.remove(DROPBOX_AUTHORIZE);
-		e.apply();
-	}
-
-	public static boolean isDropboxAuthorized(Context context) {
-		return getBoolean(context, DROPBOX_AUTHORIZE, false);
-	}
-
-	public static boolean isDropboxUploadBackups(Context context) {
-		return isDropboxAuthorized(context) && getBoolean(context, "dropbox_upload_backup", false);
-	}
-
-	public static boolean isDropboxUploadAutoBackups(Context context) {
-		return isDropboxAuthorized(context) && getBoolean(context, "dropbox_upload_autobackup", false);
-	}
-
-	public static boolean isDropboxUploadPictures(Context context) {
-		return isDropboxAuthorized(context) && getBoolean(context, "dropbox_upload_pictures", false);
-	}
-
-	public static boolean isDropboxDownloadPictures(Context context) {
-		return isDropboxAuthorized(context) && getBoolean(context, "dropbox_download_pictures", false);
 	}
 
 	public static boolean isUseHierarchicalCategorySelector(Context context) {

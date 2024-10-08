@@ -33,7 +33,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 
 import tw.tib.financisto.R;
 import tw.tib.financisto.export.drive.GoogleDriveAuthorizeFolderTask;
-import tw.tib.financisto.export.dropbox.Dropbox;
 import tw.tib.financisto.export.Export;
 import tw.tib.financisto.rates.ExchangeRateProviderFactory;
 import tw.tib.financisto.utils.MyPreferences;
@@ -83,16 +82,6 @@ public class PreferencesActivity extends PreferenceActivity {
             selectDatabaseBackupFolder();
             return true;
         });
-        Preference pAuthDropbox = preferenceScreen.findPreference("dropbox_authorize");
-        pAuthDropbox.setOnPreferenceClickListener(arg0 -> {
-            authDropbox();
-            return true;
-        });
-        Preference pDeauthDropbox = preferenceScreen.findPreference("dropbox_unlink");
-        pDeauthDropbox.setOnPreferenceClickListener(arg0 -> {
-            deAuthDropbox();
-            return true;
-        });
         Preference pExchangeProvider = preferenceScreen.findPreference("exchange_rate_provider");
         pOpenExchangeRatesAppId = preferenceScreen.findPreference("openexchangerates_app_id");
         pExchangeProvider.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
@@ -133,7 +122,6 @@ public class PreferencesActivity extends PreferenceActivity {
             useFingerprint.setSummary(getString(R.string.fingerprint_unavailable, FingerprintUtils.reasonWhyFingerprintUnavailable(this)));
             useFingerprint.setEnabled(false);
         }
-        linkToDropbox();
         setCurrentDatabaseBackupFolder();
         enableOpenExchangeApp();
         selectAccount();
@@ -190,17 +178,6 @@ public class PreferencesActivity extends PreferenceActivity {
             }
         }
         return null;
-    }
-
-    private void linkToDropbox() {
-        boolean dropboxAuthorized = MyPreferences.isDropboxAuthorized(this);
-        PreferenceScreen preferenceScreen = getPreferenceScreen();
-        preferenceScreen.findPreference("dropbox_authorize").setEnabled(!dropboxAuthorized);
-        preferenceScreen.findPreference("dropbox_unlink").setEnabled(dropboxAuthorized);
-        preferenceScreen.findPreference("dropbox_upload_backup").setEnabled(dropboxAuthorized);
-        preferenceScreen.findPreference("dropbox_upload_autobackup").setEnabled(dropboxAuthorized);
-        preferenceScreen.findPreference("dropbox_upload_pictures").setEnabled(dropboxAuthorized);
-        preferenceScreen.findPreference("dropbox_download_pictures").setEnabled(dropboxAuthorized);
     }
 
     private void selectDatabaseBackupFolder() {
@@ -287,17 +264,6 @@ public class PreferencesActivity extends PreferenceActivity {
         return intent;
     }
 
-    Dropbox dropbox = new Dropbox(this);
-
-    private void authDropbox() {
-        dropbox.startAuth();
-    }
-
-    private void deAuthDropbox() {
-        dropbox.deAuth();
-        linkToDropbox();
-    }
-
     @Override
     protected void onPause() {
         super.onPause();
@@ -308,8 +274,6 @@ public class PreferencesActivity extends PreferenceActivity {
     protected void onResume() {
         super.onResume();
         PinProtection.unlock(this);
-        dropbox.completeAuth();
-        linkToDropbox();
     }
 
 }

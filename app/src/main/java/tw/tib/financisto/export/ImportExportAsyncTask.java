@@ -26,7 +26,6 @@ import tw.tib.financisto.bus.RefreshCurrentTab;
 import tw.tib.financisto.db.DatabaseAdapter;
 import tw.tib.financisto.utils.MyPreferences;
 
-import static tw.tib.financisto.export.Export.uploadBackupFileToDropbox;
 import static tw.tib.financisto.export.Export.uploadBackupFileToGoogleDrive;
 
 public abstract class ImportExportAsyncTask extends AsyncTask<Uri, String, Object> {
@@ -80,17 +79,6 @@ public abstract class ImportExportAsyncTask extends AsyncTask<Uri, String, Objec
             return result.toString();
         }
         return null;
-    }
-
-    protected void doUploadToDropbox(Context context, Uri backupFileUri) throws Exception {
-        if (MyPreferences.isDropboxUploadBackups(context)) {
-            doForceUploadToDropbox(context, backupFileUri);
-        }
-    }
-
-    protected void doForceUploadToDropbox(Context context, Uri backupFileUri) throws Exception {
-        publishProgress(context.getString(R.string.dropbox_uploading_file));
-        uploadBackupFileToDropbox(context, backupFileUri);
     }
 
     void doUploadToGoogleDrive(Context context, Uri backupFileUri) throws Exception {

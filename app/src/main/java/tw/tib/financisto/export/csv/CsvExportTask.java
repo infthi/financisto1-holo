@@ -21,9 +21,6 @@ public class CsvExportTask extends ImportExportAsyncTask {
 	protected Object work(Context context, DatabaseAdapter db, Uri...params) throws Exception {
 		CsvExport export = new CsvExport(context, db, options);
 		Uri backupFileUri = export.export();
-		if (options.uploadToDropbox) {
-			doForceUploadToDropbox(context, backupFileUri);
-		}
 		if (options.uploadToGDrive) {
 			doForceUploadToGoogleDrive(context, backupFileUri);
 		}

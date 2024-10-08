@@ -33,10 +33,6 @@ import tw.tib.financisto.export.drive.GoogleDriveFileInfo;
 import tw.tib.financisto.export.drive.GoogleDriveFileList;
 import tw.tib.financisto.export.drive.GoogleDriveListFilesTask;
 import tw.tib.financisto.export.drive.GoogleDriveRestoreTask;
-import tw.tib.financisto.export.dropbox.DropboxBackupTask;
-import tw.tib.financisto.export.dropbox.DropboxFileList;
-import tw.tib.financisto.export.dropbox.DropboxListFilesTask;
-import tw.tib.financisto.export.dropbox.DropboxRestoreTask;
 import tw.tib.financisto.export.qif.QifExportOptions;
 import tw.tib.financisto.export.qif.QifImportOptions;
 import tw.tib.financisto.utils.PinProtection;
@@ -178,47 +174,6 @@ public class MenuListFragment extends ListFragment {
         if (resultCode == RESULT_OK) {
             Toast.makeText(getContext(), R.string.google_drive_connection_resolved, Toast.LENGTH_LONG).show();
         }
-    }
-
-    // dropbox
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void doImportFromDropbox(DropboxFileList event) {
-        final String[] backupFiles = event.files;
-        if (backupFiles != null) {
-            final String[] selectedDropboxFile = new String[1];
-            new AlertDialog.Builder(getContext())
-                    .setTitle(R.string.restore_database_online_dropbox)
-                    .setPositiveButton(R.string.restore, (dialog, which) -> {
-                        if (selectedDropboxFile[0] != null) {
-                            ProgressDialog d = ProgressDialog.show(getContext(), null, getString(R.string.restore_database_inprogress_dropbox), true);
-                            new DropboxRestoreTask(getActivity(), d, selectedDropboxFile[0]).execute();
-                        }
-                    })
-                    .setSingleChoiceItems(backupFiles, -1, (dialog, which) -> {
-                        if (which >= 0 && which < backupFiles.length) {
-                            selectedDropboxFile[0] = backupFiles[which];
-                        }
-                    })
-                    .show();
-        }
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void doDropboxBackup(StartDropboxBackup e) {
-        ProgressDialog d = ProgressDialog.show(getContext(), null, this.getString(R.string.backup_database_dropbox_inprogress), true);
-        new DropboxBackupTask(getActivity(), d).execute();
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void doDropboxRestore(StartDropboxRestore e) {
-        ProgressDialog d = ProgressDialog.show(getContext(), null, this.getString(R.string.dropbox_loading_files), true);
-        new DropboxListFilesTask(getActivity(), d).execute();
-    }
-
-    public static class StartDropboxBackup {
-    }
-
-    public static class StartDropboxRestore {
     }
 
     public static class StartDriveBackup {

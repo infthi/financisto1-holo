@@ -15,14 +15,12 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.util.Log;
-import com.dropbox.core.util.IOUtil;
 
 import tw.tib.financisto.export.drive.GoogleDriveFileInfo;
 import tw.tib.financisto.export.drive.GoogleDriveRESTClient;
 import tw.tib.financisto.db.Database;
 import tw.tib.financisto.db.DatabaseAdapter;
 import tw.tib.financisto.db.DatabaseSchemaEvolution;
-import tw.tib.financisto.export.dropbox.Dropbox;
 
 import java.io.*;
 import java.util.Arrays;
@@ -53,13 +51,6 @@ public class DatabaseImport extends FullDatabaseImport {
         return new DatabaseImport(context, db, in);
     }
 
-    public static DatabaseImport createFromDropboxBackup(Context context, DatabaseAdapter dbAdapter, Dropbox dropbox, String backupFile)
-            throws Exception {
-        InputStream inputStream = dropbox.getBackupFileAsStream(backupFile);
-        InputStream in = new GZIPInputStream(inputStream);
-        return new DatabaseImport(context, dbAdapter, in);
-    }
-
     private DatabaseImport(Context context, DatabaseAdapter dbAdapter, InputStream backupStream) {
         super(context, dbAdapter);
         this.schemaEvolution = new DatabaseSchemaEvolution(context, Database.DATABASE_NAME, null, Database.DATABASE_VERSION);
@@ -71,12 +62,8 @@ public class DatabaseImport extends FullDatabaseImport {
         InputStream s = decompressStream(backupStream);
         InputStreamReader isr = new InputStreamReader(s, "UTF-8");
         BufferedReader br = new BufferedReader(isr, 65535);
-        try {
-            recoverDatabase(br);
-            runRestoreAlterscripts();
-        } finally {
-            IOUtil.closeInput(br);
-        }
+        recoverDatabase(br);
+        runRestoreAlterscripts();
     }
 
     private InputStream decompressStream(InputStream input) throws IOException {
